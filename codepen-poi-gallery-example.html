@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>POI jsDelivr Example</title>
+  <style>
+    :root {
+      --bg: #f4f5f6;
+      --panel: #ffffff;
+      --text: #1f2a37;
+      --muted: #6b7280;
+      --border: #d1d5db;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .wrap {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+    }
+
+    .note {
+      margin: 0 0 20px;
+      color: var(--muted);
+    }
+
+    .poi-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      margin: 0 0 14px;
+    }
+
+    .poi-title {
+      margin: 0 0 10px;
+      font-size: 1.1rem;
+    }
+
+    .poi-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 8px;
+    }
+
+    .poi-image-slot {
+      aspect-ratio: 4 / 3;
+      background: #eef2f7;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .poi-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>Epic Trip Atlas POI Gallery</h1>
+    <p class="note">
+      Uses jsDelivr + GitHub image paths. Missing files auto-hide without breaking layout.
+    </p>
+    <section id="poi-list"></section>
+  </main>
+
+  <script src="./poi-cdn.js"></script>
+  <script>
+    var TAG = "main"; // switch to "v1" after you push tag v1
+    var SAMPLE_POIS = [
+      { stateCode: "CA", poiId: "CA_21_solvang", displayName: "Solvang", images: [1, 2, 3, 4, 5, 6] },
+      { stateCode: "CA", poiId: "CA_24_big_sur_coastline", displayName: "Big Sur Coastline", images: [1, 2, 3, 4, 5, 6] },
+      { stateCode: "AZ", poiId: "AZ_01_grand_canyon_south_rim", displayName: "Grand Canyon South Rim", images: [1, 2, 3, 4, 5, 6] }
+    ];
+
+    function renderPage() {
+      var list = document.getElementById("poi-list");
+      SAMPLE_POIS.forEach(function (poi) {
+        var card = document.createElement("article");
+        card.className = "poi-card";
+
+        var title = document.createElement("h2");
+        title.className = "poi-title";
+        title.textContent = poi.displayName + " (" + poi.poiId + ")";
+        card.appendChild(title);
+
+        var gallery = document.createElement("div");
+        gallery.className = "poi-gallery";
+        card.appendChild(gallery);
+
+        poiCdn.renderPoiGallery(gallery, poi, { tag: TAG });
+        list.appendChild(card);
+      });
+    }
+
+    renderPage();
+  </script>
+</body>
+</html>
